@@ -1,0 +1,3 @@
+1) Show all of widget.preferences in options.html
+2) Allow user to clear widget.preferences
+3) Allow user to change color in options.html

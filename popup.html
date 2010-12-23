@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<style>
+body {padding:0 5px;background:rgb(0,0,0);color: rgb(144,255,144);font-size:12px;}
+</style>
+<pre id="content">
+  <p>loading...</p>
+</pre>
+<script>
+var popup = document.getElementById('content'),
+    display = function( headers ){
+      popup.innerHTML = widget.preferences[ headers ];
+    };
+    
+window.addEventListener( 'load', function(event){
+  //just passing a dummy message to esatablish a connection
+  opera.extension.postMessage('can haz location?'); 
+}, false );
+
+opera.extension.addEventListener( 'message', function(event){
+  display(event.data);
+}, false );
+</script>

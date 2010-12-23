@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<script>
+//background script
+window.addEventListener( "load", function(){
+  var props = {
+    title: "Response Headers",
+    icon: "head_small.png",
+    popup: {
+      href: "popup.html",
+      width: 400,
+    },
+    disabled: true
+  };
+  
+  button = opera.contexts.toolbar.createItem( props );
+  opera.contexts.toolbar.addItem( button );
+  
+  //the connect event fires for every page load
+  opera.extension.addEventListener('connect', function(){
+    var tab = getTab();
+    getHeaders( tab );
+  }, false );
+  
+  opera.extension.tabs.addEventListener( 'focus', function() {
+    //i should probably remove the listener too...
+    opera.extension.addEventListener( 'message', function(event){
+      var tab = getTab();
+      event.source.postMessage( tab.url );
+    }, false);  
+  }, false);
+  
+  function getTab(){
+    var tab = opera.extension.tabs.getFocused();
+    //if we have access to a tab, and it's got a url
+    //return that value. speed dial is what we're
+    //coding against here
+    if (tab && tab.url != undefined) return tab;
+  };
+  
+  function getHeaders( tab ){  
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", tab.url, true);
+    xhr.onreadystatechange = function() {
+      if (this.readyState == 3) { //not working for readyState 2...which maybe is a bug?
+        widget.preferences[ tab.url ] = this.getAllResponseHeaders();
+        opera.extension.addEventListener( 'message', function(event){
+          event.source.postMessage( tab.url );
+        }, false);
+        button.disabled = false;
+      }
+    };
+    xhr.send();
+  };
+  
+}, false );
+</script>
