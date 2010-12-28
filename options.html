@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HEAD options</title>
+  <style>
+    h1, h2 {font-family: Helvetica, sans-serif;width:700px;float:left;}  
+    h1 {font-size: 20px;}
+    h2 {font-size: 18px;clear:left;}
+    html {background: #eee;}
+    body {width:800px;margin:20px auto;padding: 30px;border:1px solid #ccc;background: #fff;box-shadow:0 4px 8px #bbb;}
+    pre {border: 1px solid #bbb;overflow:auto;padding:15px;background:rgb(0,0,0);color: rgb(144,255,144);font-size:12px;}
+    ol {padding-left:0;list-style-position:inside;clear:both;}
+    li {font: 12px regular Arial, sans-serif;}
+    button, p {float:right;margin-top:10px;}
+  </style>
+</head>
+<body>
+  <h1>HEAD version: <span id=version></span></h1>
+  <p><a href="https://github.com/miketaylr/head.oex">Contribute!</a></p>
+  <h2>Stored headers</h2>
+  <button id=clear>Delete All</button>
+  <ol id=sites>
+  </ol>
+  <script>
+    (function(doc, undefined){
+      var version = doc.getElementById('version'),
+      sites = doc.getElementById('sites'),
+      clear = doc.getElementById('clear'),
+      store = widget.preferences,
+      frag = doc.createDocumentFragment(),
+      
+      showSites = function() {
+        if (!store.length) return;
+        
+        for (var i = 0, l = widget.preferences.length; i < l; i++) {
+          frag.appendChild( li( store.key(i) + ": <pre>" + store[store.key(i)] + "</pre>" ) );
+        }
+        sites.appendChild( frag );
+      },
+      
+      li = function( text ) {
+        var li = doc.createElement('li');
+        li.innerHTML = text;
+        return li;
+      },
+      
+      deleteStorage = function() {
+        store.clear();
+        sites.innerHTML = 'Nothing here!';
+      },
+      
+      init = (function() {
+        version.innerHTML = widget.version;
+        showSites();
+        clear.onclick = deleteStorage;
+      })();
+    })(document);
+  </script>
+</body>
+</html>
