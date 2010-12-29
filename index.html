@@ -17,31 +17,27 @@ window.addEventListener( "load", function(){
   
   //the connect event fires for every page load
   opera.extension.addEventListener( 'connect', function(){
-    var tab = getTab();
-    getHeaders( tab );
+    var t = getTab();
+    if ( t ) getHeaders( t );
   }, false );
   
   opera.extension.tabs.addEventListener( 'focus', function() {
     //should probably remove the listener too...
     opera.extension.addEventListener( 'message', function(event){
-      var tab = getTab();
-      event.source.postMessage( tab.url );
+      var t = getTab();
+      if ( t ) event.source.postMessage( t.url );
     }, false);  
   }, false);
   
   function getTab(){
     var tab = opera.extension.tabs.getFocused();
-    
-    //if we have access to a tab, and it's got a url
-    //return that value. speed dial is what we're
-    //coding against here
-
-    if (tab && tab.url != undefined ) return tab;
+    // this looks funny, but speed dial is giving me trouble
+    return ( typeof tab == "object" ) ? tab : false;
   };
   
   function getHeaders( tab ){
     //what about widget internal pages?
-    if (tab.url && !~~tab.url.indexOf('widget://')) return;
+    if (!~~tab.url.indexOf('widget://')) return;
     
     var xhr = new XMLHttpRequest();
     xhr.open("GET", tab.url, true);
