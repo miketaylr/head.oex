@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <widget xmlns="http://www.w3.org/ns/widgets" version="0.05">
   <name>HEAD</name>
-  <description>Perform a HEAD request and show the results in a popup, because it's quicker than opening Dragonfly or switching to my terminal to use CURL. Yes, I'm lazy.</description>
+  <description>Perform a HEAD request and show the results in a popup, because it's quicker than opening Dragonfly or switching to my terminal to use CURL. Yes, I'm lazy. Also, an options page that shows you all stored headers with the ability to nuke them.</description>
   <author email="miket@opera.com">Mike Taylor</author>
   <icon src="head.jpg" />
   <access origin="*" />
