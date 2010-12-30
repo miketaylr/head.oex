@@ -21,14 +21,6 @@ window.addEventListener( "load", function(){
     if ( t ) getHeaders( t );
   }, false );
   
-  opera.extension.tabs.addEventListener( 'focus', function() {
-    //should probably remove the listener too...
-    opera.extension.addEventListener( 'message', function(event){
-      var t = getTab();
-      if ( t ) event.source.postMessage( t.url );
-    }, false);  
-  }, false);
-  
   function getTab(){
     var tab = opera.extension.tabs.getFocused();
     // this looks funny, but speed dial is giving me trouble
